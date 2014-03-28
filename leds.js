@@ -1,3 +1,20 @@
+var http = require('http'),
+    fs = require('fs'),
+    // NEVER use a Sync function except at start-up!
+    index = fs.readFileSync(__dirname + '/html/index.html');
+
+// Send index.html to all requests
+var app = http.createServer(function(req, res) {
+    res.writeHead(200, {'Content-Type': 'text/html'});
+    res.end(index);
+});
+
+// Socket.io server listens to our app
+var io = require('socket.io').listen(app);
+
+
+
+
 var SerialPort  = require('serialport').SerialPort;
 
 var comPort = "COM3";
@@ -11,36 +28,55 @@ var arduinoSerial = new SerialPort(comPort, {
 }, false);
 
 arduinoSerial.open(function () {
-  console.log('open');
 
-  setInterval(function() {
+	console.log("OPEN");
 
-  	var iRed = Math.floor(Math.random()*256);
-  	var iBlue = Math.floor(Math.random()*256);
-  	var iGreen = Math.floor(Math.random()*256);
+	io.sockets.on('colorxx', function(data) {
 
-  	/*var iRed = 255;
-  	var iBlue = 255;
-  	var iGreen = 255;*/
+		console.log(data);
 
-  	var sRed = String.fromCharCode(iRed);
-  	var sBlue = String.fromCharCode(iBlue);
-  	var sGreen = String.fromCharCode(iGreen);
+		var rgb = hex.match(/.{1,2}/g);
+		var iRed = parseInt("0x"+rgb[0]);
+		var iBlue = parseInt("0x"+rgb[1]);
+		var iGreen = parseInt("0x"+rgb[2]);
 
-  	console.log("A"+sRed+sBlue+sGreen+"Z");
+		var sRed = String.fromCharCode(iRed);
+		var sBlue = String.fromCharCode(iBlue);
+		var sGreen = String.fromCharCode(iGreen);
 
-  	arduinoSerial.write("a"+sRed+sBlue+sGreen+"z", function(err, results) {
-	    console.log('err ' + err);
-	    console.log('results ' + results);
-	  });
-  }, 1000)
-  arduinoSerial.on('data', function(data) {
-    console.log('data received: ' + data);
-  });
+		console.log("A"+sRed+sBlue+sGreen);
+
+	}, 1000);
+
+	/*arduinoSerial.on('data', function(data) {
+		console.log('data received: ' + data);
+	});*/
 });
 
-/*serialport.list(function(err, ports) {
-	ports.forEach(function(port) {
-		console.log(port);
-	})
-});*/
+app.listen(301);
+
+io.sockets.on('connection', function (socket) {
+  socket.on('color', function (data) {
+    
+  		var rgb = data.data.match(/.{1,2}/g);
+		var iRed = parseInt("0x"+rgb[0]);
+		var iBlue = parseInt("0x"+rgb[2]);
+		var iGreen = parseInt("0x"+rgb[1]);
+
+		console.log(iRed);
+		console.log(iBlue);
+		console.log(iGreen);
+
+		var sRed = String.fromCharCode(iRed);
+		var sBlue = String.fromCharCode(iBlue);
+		var sGreen = String.fromCharCode(iGreen);
+
+		console.log("A"+sRed+sBlue+sGreen);
+
+		arduinoSerial.write("A"+sRed+sBlue+sGreen, function(err, results) {
+			console.log('err ' + err);
+			console.log('results ' + results);
+		});
+
+  });
+});
