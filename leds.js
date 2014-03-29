@@ -17,7 +17,7 @@ var io = require('socket.io').listen(app);
 
 var SerialPort  = require('serialport').SerialPort;
 
-var comPort = "COM3";
+var comPort = "COM11";
 
 var arduinoSerial = new SerialPort(comPort, {
 	baudRate: 4800, 		// this is synced to what was set for the Arduino Code
@@ -34,7 +34,7 @@ arduinoSerial.open(function () {
 	io.sockets.on('colorxx', function(data) {
 
 		console.log(data);
-
+		
 		var rgb = hex.match(/.{1,2}/g);
 		var iRed = parseInt("0x"+rgb[0]);
 		var iBlue = parseInt("0x"+rgb[1]);
