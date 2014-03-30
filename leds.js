@@ -31,52 +31,50 @@ arduinoSerial.open(function () {
 
 	console.log("OPEN");
 
-	io.sockets.on('colorxx', function(data) {
+	// io.sockets.on('colorxx', function(data) {
 
-		console.log(data);
-		
-		var rgb = hex.match(/.{1,2}/g);
-		var iRed = parseInt("0x"+rgb[0]);
-		var iBlue = parseInt("0x"+rgb[1]);
-		var iGreen = parseInt("0x"+rgb[2]);
+	// 	console.log(data);
 
-		var sRed = String.fromCharCode(iRed);
-		var sBlue = String.fromCharCode(iBlue);
-		var sGreen = String.fromCharCode(iGreen);
+	// 	var rgb = hex.match(/.{1,2}/g);
+	// 	var iRed = parseInt("0x"+rgb[0]);
+	// 	var iBlue = parseInt("0x"+rgb[1]);
+	// 	var iGreen = parseInt("0x"+rgb[2]);
 
-		console.log("A"+sRed+sBlue+sGreen);
+	// 	var sRed = iRed.toString(16);
+	// 	var sBlue = iBlue.toString(16);
+	// 	var sGreen = iGreen.toString(16);
 
-	}, 1000);
+	// 	arduinoSerial.write("#"+sRed+sBlue+sGreen+"500", function(err, results) {
+	// 		console.log('err ' + err);
+	// 		console.log('results ' + results);
+	// 	});
 
-	/*arduinoSerial.on('data', function(data) {
-		console.log('data received: ' + data);
-	});*/
+	// 	console.log("#"+sRed+sBlue+sGreen+"500");
+
+	// }, 1000);
+
 });
 
 app.listen(301);
 
 io.sockets.on('connection', function (socket) {
-  socket.on('color', function (data) {
+	socket.on('color', function (data) {
     
   		var rgb = data.data.match(/.{1,2}/g);
 		var iRed = parseInt("0x"+rgb[0]);
 		var iBlue = parseInt("0x"+rgb[2]);
 		var iGreen = parseInt("0x"+rgb[1]);
 
-		console.log(iRed);
-		console.log(iBlue);
-		console.log(iGreen);
+		var sRed = iRed.toString(16);
+		var sBlue = iBlue.toString(16);
+		var sGreen = iGreen.toString(16);
 
-		var sRed = String.fromCharCode(iRed);
-		var sBlue = String.fromCharCode(iBlue);
-		var sGreen = String.fromCharCode(iGreen);
-
-		console.log("A"+sRed+sBlue+sGreen);
-
-		arduinoSerial.write("A"+sRed+sBlue+sGreen, function(err, results) {
+		arduinoSerial.write("#"+sRed+sBlue+sGreen+"!", function(err, results) {
 			console.log('err ' + err);
 			console.log('results ' + results);
 		});
 
-  });
+		console.log("#"+sRed+sBlue+sGreen+"!");
+
+  	});
 });
