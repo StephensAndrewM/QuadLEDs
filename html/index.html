@@ -2,10 +2,10 @@
 <html>
 <head>
 	<title>LED Color</title>
-	<link rel="Stylesheet" type="text/css" href="http://localhost/Sandbox/LEDs/html/css/jpicker-1.1.6.min.css" />
-	<link rel="Stylesheet" type="text/css" href="http://localhost/Sandbox/LEDs/html/jPicker.css" />
+	<link rel="Stylesheet" type="text/css" href="http://legacy.andrewmediaproductions.com/hosting/led/jpicker/css/jpicker-1.1.6.min.css" />
+	<!-- <link rel="Stylesheet" type="text/css" href="http://localhost/Sandbox/LEDs/html/jPicker.css" /> -->
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-	<script src="http://localhost/Sandbox/LEDs/html/jpicker-1.1.6.min.js" type="text/javascript"></script>
+	<script src="http://legacy.andrewmediaproductions.com/hosting/led/jpicker/jpicker-1.1.6.min.js" type="text/javascript"></script>
 	<script src="//localhost:301/socket.io/socket.io.js"></script>
 </head>
 <body>
@@ -15,7 +15,7 @@
 var socket = io.connect('//localhost:301');
 
 $(document).ready(function() {
-	$.fn.jPicker.defaults.images.clientPath='http://localhost/Sandbox/LEDs/html/images/';
+	$.fn.jPicker.defaults.images.clientPath='http://legacy.andrewmediaproductions.com/hosting/led/jpicker/images/';
 	$('#Inline').jPicker(
 		{},
 		{},

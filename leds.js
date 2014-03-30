@@ -17,7 +17,7 @@ var io = require('socket.io').listen(app);
 
 var SerialPort  = require('serialport').SerialPort;
 
-var comPort = "COM11";
+var comPort = "COM12";
 
 var arduinoSerial = new SerialPort(comPort, {
 	baudRate: 4800, 		// this is synced to what was set for the Arduino Code
