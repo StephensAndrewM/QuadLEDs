@@ -60,21 +60,21 @@ app.listen(301);
 io.sockets.on('connection', function (socket) {
 	socket.on('color', function (data) {
     
-  		var rgb = data.data.match(/.{1,2}/g);
+  		/*var rgb = data.data.match(/.{1,2}/g);
 		var iRed = parseInt("0x"+rgb[0]);
 		var iBlue = parseInt("0x"+rgb[2]);
 		var iGreen = parseInt("0x"+rgb[1]);
 
 		var sRed = iRed.toString(16);
 		var sBlue = iBlue.toString(16);
-		var sGreen = iGreen.toString(16);
+		var sGreen = iGreen.toString(16);*/
 
-		arduinoSerial.write("#"+sRed+sBlue+sGreen+"!", function(err, results) {
+		arduinoSerial.write("#"+data.colorHex+"!", function(err, results) {
 			console.log('err ' + err);
 			console.log('results ' + results);
 		});
 
-		console.log("#"+sRed+sBlue+sGreen+"!");
+		console.log("#"+data.colorHex+"!");
 
   	});
 });

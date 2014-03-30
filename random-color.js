@@ -1,6 +1,6 @@
 var SerialPort  = require('serialport').SerialPort;
 
-var comPort = "COM3";
+var comPort = "COM12";
 
 var arduinoSerial = new SerialPort(comPort, {
 	baudRate: 9600, 		// this is synced to what was set for the Arduino Code
@@ -24,14 +24,14 @@ arduinoSerial.open(function () {
 		var sBlue = iBlue.toString(16);
 		var sGreen = iGreen.toString(16);
 
-		arduinoSerial.write("#"+sRed+sBlue+sGreen+"500", function(err, results) {
+		arduinoSerial.write("#"+sRed+sBlue+sGreen+"4000~", function(err, results) {
 			console.log('err ' + err);
 			console.log('results ' + results);
 		});
 
-		console.log("#"+sRed+sBlue+sGreen+"500");
+		console.log("#"+sRed+sBlue+sGreen+"4000~");
 
-	}, 1000);
+	}, 5000);
 
 	/*arduinoSerial.on('data', function(data) {
 		console.log('data received: ' + data);

@@ -21,7 +21,7 @@ $(document).ready(function() {
 		{},
 		function(color, context) {
 			var hex = color.val('hex');
-			socket.emit('color', {data:hex});
+			socket.emit('color', {colorHex:hex});
 			console.log(hex);
 		}
 	);
